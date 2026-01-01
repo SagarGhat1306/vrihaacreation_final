@@ -14,7 +14,7 @@ orderRouter.post('/status' ,  adminauth, updateStatus )
 
 // payment feture
 
-orderRouter.post('/place',authuser, placeorder)
+orderRouter.post('/place', placeorder)
 orderRouter.post('/stripe',authuser, placeorderStrip)
 orderRouter.post('/razorpay',authuser, placeordeRazorpay)
 
