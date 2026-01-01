@@ -80,7 +80,9 @@ const onSubmitHandler = async (e) => {
     switch(method){
       case 'cod':
           const response = await axios.post(`${backendurl}/api/order/place`, orderData, {
-            token: token  
+             headers: {
+              token: token
+            } 
           });
 
           console.log(response.data); // <- fixed
