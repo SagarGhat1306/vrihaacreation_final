@@ -1,25 +1,58 @@
-const jwt = require('jsonwebtoken')
+// const jwt = require('jsonwebtoken')
 
-const authuser = async (req,res,next) => {
+// const authuser = async (req,res,next) => {
 
-    const {token} = req.headers;
-    console.log(token)
+//     const {token} = req.headers;
+//     console.log(token)
 
-    if(!token){
-        res.json({success : false , message : "Not Authorized Again"})
+//     if(!token){
+//         res.json({success : false , message : "Not Authorized Again"})
+//     }
+
+//     try{
+//         const tokenDecod = jwt.verify(token , process.env.JWT_SECRETE_KEY )
+
+//         req.body.userId = tokenDecod.id
+
+//         next()
+//     }
+//     catch(error){
+//         res.json({success : false , message : error.message})
+//     }
+
+// }
+
+// module.exports = authuser
+
+
+const jwt = require('jsonwebtoken');
+
+const authuser = (req, res, next) => {
+    const token = req.headers.token;
+
+    // Token not provided
+    if (!token) {
+        return res.json({
+            success: false,
+            message: "Not authorized, login again"
+        });
     }
 
-    try{
-        const tokenDecod = jwt.verify(token , process.env.JWT_SECRETE_KEY )
+    try {
+        // Verify JWT using correct env variable
+        const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
 
-        req.body.userId = tokenDecod.id
+        // Attach userId to request body
+        req.body.userId = decoded.id;
 
-        next()
+        next();
+
+    } catch (error) {
+        return res.json({
+            success: false,
+            message: error.message
+        });
     }
-    catch(error){
-        res.json({success : false , message : error.message})
-    }
+};
 
-}
-
-module.exports = authuser
+module.exports = authuser;
