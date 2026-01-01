@@ -42,7 +42,7 @@ const authuser = (req, res, next) => {
 
     try {
         // Verify JWT using correct env variable
-        const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
+        const decoded = jwt.verify(token, process.env.JWT_SECRETE_KEY);
 
         // Attach userId to request body
         req.body.userId = decoded.id;
