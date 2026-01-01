@@ -18,6 +18,8 @@ const placeorder = async(req,res) => {
 
         }
 
+        console.log(orderData)
+
         const neworder = new orderModel(orderData) 
         await neworder.save()
 
