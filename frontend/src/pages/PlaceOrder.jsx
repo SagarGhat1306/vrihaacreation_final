@@ -72,6 +72,9 @@ const onSubmitHandler = async (e) => {
     console.log(orderData)
 
     const token = localStorage.getItem("token") 
+    if(!token){
+      console.log("no token is getting")
+    }
     console.log(token);
 
     switch(method){
