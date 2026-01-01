@@ -23,9 +23,14 @@ dist-ssr
 *.sln
 *.sw?
 
-
 .env
 .env.local
 .env.development
 .env.production
 .env.test
+
+
+.env
+admin/.env
+backend/.env
+frontend/.env
