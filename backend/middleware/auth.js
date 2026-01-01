@@ -29,6 +29,8 @@ const jwt = require('jsonwebtoken');
 
 const authuser = (req, res, next) => {
     const token = req.headers.token;
+    console.log("TOKEN FROM FRONTEND:", req.headers);
+
 
     // Token not provided
     if (!token) {

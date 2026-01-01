@@ -74,7 +74,7 @@ const onSubmitHandler = async (e) => {
     switch(method){
       case 'cod':
           const response = await axios.post(`${backendurl}/api/order/place`, orderData, {
-            headers: { token }
+            token: localStorage.getItem("token") 
           });
 
           console.log(response.data); // <- fixed
