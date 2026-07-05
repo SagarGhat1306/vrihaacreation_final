@@ -148,7 +148,8 @@ if (subcatagory.length > 0) {
           <Title text1={"ALL"} text2={"COLLECTIONS"}/>
           {/* product sort  */}
 
-          <select onChange={(e)=>setSortType(e.target.value)} className='border-2 border-gray-300 text-xl font-medium px-2'>
+          <select onChange={(e)=>setSortType(e.target.value)} className='border-2 border-gray-300 text-sm px-1 py-1 sm:text-base sm:px-2 sm:py-1.5 d:text-lg md:px-3  md:text-lg  md:py-2
+                lg:text-xl lg:px-4 lg:py-2'>
             <option value = "relevent">Sort by : Relevent</option>
             <option value = "low-high"> Sort by: low to High</option>
             <option value = "high-low">Sort by: High to Low</option>

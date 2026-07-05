@@ -24,7 +24,7 @@ productRouter.post(
   addproduct
 );
 
-productRouter.get('/listproduct',  listproduct)
+productRouter.get('s',  listproduct)
 productRouter.post('/removeproduct',adminAuth , removeproduct)
 productRouter.post('/singleproduct', singleproduct)
 
