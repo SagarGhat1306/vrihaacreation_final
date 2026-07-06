@@ -11,16 +11,22 @@ export const apiGet = async (path) => {
   return res.json();
 };
 
-// POST json with token
-export const apiPost = async (path, body = {}) => {
+
+export const apiPost = async (path, body = {}, withAuth = true) => {
+  const headers = {
+    "Content-Type": "application/json",
+  };
+
+  if (withAuth) {
+    headers.token = localStorage.getItem("token") || "";
+  }
+
   const res = await fetch(`${BASE_URL}${path}`, {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      token: getToken(),
-    },
+    headers,
     body: JSON.stringify(body),
   });
+
   return res.json();
 };
 

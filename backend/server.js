@@ -39,8 +39,8 @@ app.use(compression());
 
 app.use(
   cors({
-    origin: function (origin, callback) {
-      // Allow Postman, server-to-server requests, etc.
+    origin(origin, callback) {
+      // Allow Postman, mobile apps, server-to-server requests
       if (!origin) return callback(null, true);
 
       if (allowedOrigins.includes(origin)) {
@@ -49,15 +49,34 @@ app.use(
 
       return callback(new Error("Not allowed by CORS"));
     },
+
     credentials: true,
-    methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization"],
+
+    methods: [
+      "GET",
+      "POST",
+      "PUT",
+      "PATCH",
+      "DELETE",
+      "OPTIONS",
+    ],
+
+    allowedHeaders: [
+      "Content-Type",
+      "Authorization",
+      "token", // IMPORTANT: allow your custom token header
+    ],
   })
 );
 
+// Handle preflight requests
+app.options("*", cors());
+
 app.use(express.json({ limit: "2mb" }));
 
+// ---------------------
 // Logger
+// ---------------------
 app.use((req, res, next) => {
   console.log(`${req.method} ${req.originalUrl}`);
   next();
@@ -77,7 +96,9 @@ app.get("/", (req, res) => {
   res.send("Backend with payments & auth running 🚀");
 });
 
-// 404 Route
+// ---------------------
+// 404
+// ---------------------
 app.use((req, res) => {
   res.status(404).json({
     success: false,
@@ -85,7 +106,9 @@ app.use((req, res) => {
   });
 });
 
-// Global Error Handler
+// ---------------------
+// Error Handler
+// ---------------------
 app.use((err, req, res, next) => {
   console.error(err);
 
@@ -96,16 +119,15 @@ app.use((err, req, res, next) => {
 });
 
 // ---------------------
-// Start Server
+// Export for Vercel
 // ---------------------
-const PORT = process.env.PORT || 5000;
+module.exports = app;
 
-if (process.env.VERCEL) {
-  // Running on Vercel
-  module.exports = app;
-} else {
-  // Running locally
+// Run locally only
+if (!process.env.VERCEL) {
+  const PORT = process.env.PORT || 5000;
+
   app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
+    console.log(`🚀 Server running on port ${PORT}`);
   });
 }
