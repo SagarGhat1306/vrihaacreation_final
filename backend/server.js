@@ -22,12 +22,12 @@ connectCloudinary();
 
 // middleware — compression + json body keep responses fast for 500 concurrent users
 app.use(compression());
-app.use(express.json({ limit: "2mb" }));
+
 
 const allowedOrigins = [
-  "https://vrihaacreation-frontend.vercel.app",
+  "https://vrihaacreation-frontend.vercel.app/",
 
-  "https://vrihaacreation-adminpanel.vercel.app",
+  "https://vrihaacreation-adminpanel.vercel.app/",
   
   "http://localhost:5173",
   "http://localhost:5174"
@@ -35,10 +35,21 @@ const allowedOrigins = [
 // Middleware
 app.use(cors({
   origin: allowedOrigins,
-  methods: ["GET", "POST", "PUT", "DELETE"],
-  allowedHeaders: ["Content-Type", "Authorization", "token"],
   credentials: true,
 }));
+
+app.options("*", cors({
+  origin: allowedOrigins,
+  credentials: true,
+}));
+
+
+app.use(express.json({ limit: "2mb" }));
+
+app.use((req, res, next) => {
+  console.log(req.method, req.originalUrl);
+  next();
+});
 
 app.use("/api/user", userRouter);
 app.use("/api/product", productRouter);
@@ -54,4 +65,4 @@ app.get("/", (req, res) => {
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
-});
+}); 
