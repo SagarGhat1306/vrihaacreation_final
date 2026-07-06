@@ -17,7 +17,7 @@ const analyticsRouter = require("./routes/analyticsRoute");
 const app = express();
 
 // ---------------------
-// Database Connections
+// Database
 // ---------------------
 connectDB();
 connectCloudinary();
@@ -40,14 +40,13 @@ app.use(compression());
 app.use(
   cors({
     origin(origin, callback) {
-      // Allow Postman, mobile apps, server-to-server requests
       if (!origin) return callback(null, true);
 
       if (allowedOrigins.includes(origin)) {
         return callback(null, true);
       }
 
-      return callback(new Error("Not allowed by CORS"));
+      callback(new Error("Not allowed by CORS"));
     },
 
     credentials: true,
@@ -58,25 +57,20 @@ app.use(
       "PUT",
       "PATCH",
       "DELETE",
-      "OPTIONS",
     ],
 
     allowedHeaders: [
       "Content-Type",
       "Authorization",
-      "token", // IMPORTANT: allow your custom token header
+      "token",
     ],
   })
 );
 
-// Handle preflight requests
-app.options("*", cors());
-
 app.use(express.json({ limit: "2mb" }));
+app.use(express.urlencoded({ extended: true }));
 
-// ---------------------
 // Logger
-// ---------------------
 app.use((req, res, next) => {
   console.log(`${req.method} ${req.originalUrl}`);
   next();
@@ -107,7 +101,7 @@ app.use((req, res) => {
 });
 
 // ---------------------
-// Error Handler
+// Global Error Handler
 // ---------------------
 app.use((err, req, res, next) => {
   console.error(err);
@@ -123,7 +117,9 @@ app.use((err, req, res, next) => {
 // ---------------------
 module.exports = app;
 
-// Run locally only
+// ---------------------
+// Local Development
+// ---------------------
 if (!process.env.VERCEL) {
   const PORT = process.env.PORT || 5000;
 
