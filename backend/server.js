@@ -1,11 +1,11 @@
 require("dotenv").config();
+
 const express = require("express");
 const cors = require("cors");
 const compression = require("compression");
 
-
 const connectDB = require("./config/db");
-const connectCloudinary  = require("./config/cloudinary");
+const connectCloudinary = require("./config/cloudinary");
 
 const userRouter = require("./routes/userRoute");
 const productRouter = require("./routes/productRoute");
@@ -16,53 +16,90 @@ const analyticsRouter = require("./routes/analyticsRoute");
 
 const app = express();
 
-// DB connection
+// ---------------------
+// Database Connections
+// ---------------------
 connectDB();
 connectCloudinary();
 
-// middleware — compression + json body keep responses fast for 500 concurrent users
+// ---------------------
+// Allowed Origins
+// ---------------------
+const allowedOrigins = [
+  "https://vrihaacreation-frontend.vercel.app",
+  "https://vrihaacreation-adminpanel.vercel.app",
+  "http://localhost:5173",
+  "http://localhost:5174",
+];
+
+// ---------------------
+// Middlewares
+// ---------------------
 app.use(compression());
 
+app.use(
+  cors({
+    origin: function (origin, callback) {
+      // Allow Postman, server-to-server requests, etc.
+      if (!origin) return callback(null, true);
 
-const allowedOrigins = [
-  "https://vrihaacreation-frontend.vercel.app/",
+      if (allowedOrigins.includes(origin)) {
+        return callback(null, true);
+      }
 
-  "https://vrihaacreation-adminpanel.vercel.app/",
-  
-  "http://localhost:5173",
-  "http://localhost:5174"
-];
-// Middleware
-app.use(cors({
-  origin: allowedOrigins,
-  credentials: true,
-}));
-
-app.options("*", cors({
-  origin: allowedOrigins,
-  credentials: true,
-}));
-
+      return callback(new Error("Not allowed by CORS"));
+    },
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+  })
+);
 
 app.use(express.json({ limit: "2mb" }));
 
+// Logger
 app.use((req, res, next) => {
-  console.log(req.method, req.originalUrl);
+  console.log(`${req.method} ${req.originalUrl}`);
   next();
 });
 
+// ---------------------
+// Routes
+// ---------------------
 app.use("/api/user", userRouter);
 app.use("/api/product", productRouter);
 app.use("/api/cart", cartRouter);
 app.use("/api/order", orderRouter);
 app.use("/api/category", categoryRouter);
 app.use("/api/analytics", analyticsRouter);
-// Test route
+
 app.get("/", (req, res) => {
   res.send("Backend with payments & auth running 🚀");
 });
 
+// 404 Route
+app.use((req, res) => {
+  res.status(404).json({
+    success: false,
+    message: "Route not found",
+  });
+});
+
+// Global Error Handler
+app.use((err, req, res, next) => {
+  console.error(err);
+
+  res.status(err.status || 500).json({
+    success: false,
+    message: err.message || "Internal Server Error",
+  });
+});
+
+// ---------------------
+// Start Server
+// ---------------------
 const PORT = process.env.PORT || 5000;
+
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
-}); 
+});
