@@ -26,6 +26,9 @@ app.use(express.json({ limit: "2mb" }));
 
 const allowedOrigins = [
   "https://vrihaacreation-frontend.vercel.app",
+  "https://vrihaacreation-frontend.vercel.app/",
+  "https://vrihaacreation-adminpanel.vercel.app/",
+  
   "http://localhost:5173",
   "http://localhost:5174"
 ];

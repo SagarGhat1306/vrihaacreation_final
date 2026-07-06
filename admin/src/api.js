@@ -1,5 +1,5 @@
 // single place for all API calls — fetch() only, as requested
-export const BASE_URL = "http://localhost:5000";
+export const BASE_URL = "https://vrihacreation-backend.vercel.app";
 
 const getToken = () => localStorage.getItem("token") || "";
 
