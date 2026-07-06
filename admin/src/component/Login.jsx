@@ -6,26 +6,22 @@ const Login = ({ setToken }) => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
-const onSubmitHandler = async (e) => {
-  e.preventDefault();
+  const onSubmitHandler = async (e) => {
+    try {
+      e.preventDefault()
 
-  try {
-    const data = await apiPost(
-      "/api/user/admin",
-      { email, password },
-      false // Don't send token while logging in
-    );
+      const data = await apiPost('/api/user/admin', { email, password })
 
-    if (data.success) {
-      setToken(data.token);
-      localStorage.setItem("token", data.token);
-    } else {
-      toast.error(data.message);
+      if (data.success) {
+        setToken(data.token)
+        localStorage.setItem('token', data.token)
+      } else {
+        toast.error(data.message)
+      }
+    } catch (error) {
+      toast.error(error.message)
     }
-  } catch (error) {
-    toast.error(error.message);
   }
-};  
 
   return (
     <div className='min-h-screen flex items-center justify-center'>

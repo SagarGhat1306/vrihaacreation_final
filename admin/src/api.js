@@ -11,24 +11,20 @@ export const apiGet = async (path) => {
   return res.json();
 };
 
-
-export const apiPost = async (path, body = {}, withAuth = true) => {
-  const headers = {
-    "Content-Type": "application/json",
-  };
-
-  if (withAuth) {
-    headers.token = localStorage.getItem("token") || "";
-  }
-
+// POST json with token
+export const apiPost = async (path, body = {}) => {
   const res = await fetch(`${BASE_URL}${path}`, {
     method: "POST",
-    headers,
+    headers: {
+      "Content-Type": "application/json",
+      token: getToken(),
+    },
     body: JSON.stringify(body),
   });
-
   return res.json();
 };
+
+
 
 // POST FormData (images) with token — don't set Content-Type, browser does it
 export const apiPostForm = async (path, formData) => {
