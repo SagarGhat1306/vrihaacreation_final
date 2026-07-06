@@ -11,8 +11,7 @@ const Footer = () => {
           <img src={assets.logo} className="mb-5 w-32" alt="" />
 
           <p className="w-full md:w-2/3 text-gray-600">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit.
-            Atque sapiente, et dignissimos consequuntur inventore provident.
+            Vrihaa Bazaar — India's friendly marketplace. Shop across fashion, home, beauty, electronics and more, or become a seller and grow your business with us.
           </p>
         </div>
 
@@ -24,6 +23,7 @@ const Footer = () => {
             <li>About us</li>
             <li>Delivery</li>
             <li>Privacy</li>
+            <li>Become a Seller</li>
           </ul>
         </div>
 
@@ -41,7 +41,7 @@ const Footer = () => {
       <div>
         <hr />
         <p className="py-5 text-sm text-center">
-          Copyright 2025 © Vrihaacreation.com - ALL Rights Reserved
+          Copyright 2026 © VrihaaBazaar.com - ALL Rights Reserved
         </p>
       </div>
 

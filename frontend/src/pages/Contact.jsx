@@ -2,8 +2,10 @@ import React from 'react'
 import Title from '../components/Title'
 import { assets } from '../assets/assets'
 import NewsletterBox from '../components/NewsletterBox'
+import { useNavigate } from 'react-router-dom'
 
 const Contact = () => {
+  const navigate = useNavigate()
   return (
     <div>
       {/* PAGE TITLE */}
@@ -13,12 +15,12 @@ const Contact = () => {
 
       {/* CONTACT SECTION */}
       <div className="my-10 flex flex-col md:flex-row items-center justify-center gap-10 mb-28">
-        
+
         {/* IMAGE */}
-        <img 
-          className="w-full md:max-w-[480px] rounded-lg shadow-sm" 
-          src={assets.contact_img} 
-          alt="Contact" 
+        <img
+          className="w-full md:max-w-[480px] rounded-lg shadow-sm"
+          src={assets.contact_img}
+          alt="Contact"
         />
 
         {/* INFO BOX */}
@@ -36,15 +38,15 @@ const Contact = () => {
             Email: vrihaacreation@gmail.com
           </p>
 
-          <p className="font-semibold text-xl">Careers at Forever</p>
-a   
+          <p className="font-semibold text-xl">Sell on Vrihaa Bazaar</p>
+
           <p className="text-gray-600">
-            Learn more about how you can grow with us and be part of our amazing team.
+            Grow your business by reaching thousands of customers. Register your shop and start selling today.
           </p>
 
           {/* BUTTON */}
-          <button className="px-6 py-2 bg-black text-white rounded-full hover:bg-gray-800 transition">
-            Explore More
+          <button onClick={() => navigate('/become-seller')} className="px-6 py-2 bg-black text-white rounded-full hover:bg-gray-800 transition">
+            Become a Seller
           </button>
 
         </div>

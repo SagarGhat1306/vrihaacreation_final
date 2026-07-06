@@ -1,66 +1,27 @@
-const mongoose = require('mongoose')
+const mongoose = require("mongoose");
 
+const orderSchema = new mongoose.Schema(
+  {
+    userId: { type: String, required: true, index: true },
+    items: { type: Array, required: true },
+    amount: { type: Number, required: true },
+    address: { type: Object, required: true },
+    status: { type: String, required: true, default: "Order Placed", index: true },
+    paymentMethod: { type: String, required: true, index: true },
+    payment: { type: Boolean, required: true, default: false },
 
-const orderSchema = new mongoose.Schema({
+    // dummy razorpay reference
+    razorpayOrderId: { type: String, default: "" },
+    razorpayPaymentId: { type: String, default: "" },
 
-    userId :{
-      type: String,
-      required: true,
-    },
-    items:{
-        type: Array,
-      required: true,
-      
-    },
-    amount: {
-      type: Number,
-      required: true,
-      
-    },
-
-    address: {
-      type: Object,
-      required: true
-    },
-
-    status : {
-      type: String,
-      required: true,
-      default:"Order Placed"
-    },
-
-    paymentMethod: {
-      type: String, 
-      required: true
-    },
-
-    payemt: {
-      type: Boolean,
-      required: true,
-      default:false
-    },
-
-    // subCategory: {
-    //   type: String,
-    //   required: true
-    // },
-
-
-    date: {
-      type: Number,
-      default: Date.now
-    },
-
- 
+    date: { type: Number, default: Date.now, index: true },
   },
+  { timestamps: true }
+);
 
-)
+orderSchema.index({ date: -1 });
 
 const orderModel =
   mongoose.models.order || mongoose.model("order", orderSchema);
 
 module.exports = orderModel;
-
-
-
-//   enum: ["S", "M", "L", "XL", "XXL"]

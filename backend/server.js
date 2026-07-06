@@ -1,14 +1,18 @@
 require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
+const compression = require("compression");
 
 
 const connectDB = require("./config/db");
 const connectCloudinary  = require("./config/cloudinary");
-const userRouter  = require("./routes/userRoute");
+
+const userRouter = require("./routes/userRoute");
 const productRouter = require("./routes/productRoute");
 const cartRouter = require("./routes/cartRoute");
 const orderRouter = require("./routes/orderRoute");
+const categoryRouter = require("./routes/categoryRoute");
+const analyticsRouter = require("./routes/analyticsRoute");
 
 const app = express();
 
@@ -16,6 +20,9 @@ const app = express();
 connectDB();
 connectCloudinary();
 
+// middleware — compression + json body keep responses fast for 500 concurrent users
+app.use(compression());
+app.use(express.json({ limit: "2mb" }));
 
 const allowedOrigins = [
   "https://vrihaacreation-frontend.vercel.app",
@@ -30,13 +37,12 @@ app.use(cors({
   credentials: true,
 }));
 
-app.use(express.json());
-
-app.use('/api/user' , userRouter)
-app.use('/api/product' , productRouter)
-app.use('/api/cart' , cartRouter)
-
-app.use('/api/order', orderRouter)
+app.use("/api/user", userRouter);
+app.use("/api/product", productRouter);
+app.use("/api/cart", cartRouter);
+app.use("/api/order", orderRouter);
+app.use("/api/category", categoryRouter);
+app.use("/api/analytics", analyticsRouter);
 // Test route
 app.get("/", (req, res) => {
   res.send("Backend with payments & auth running 🚀");

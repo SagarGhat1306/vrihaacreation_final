@@ -4,12 +4,14 @@ import LatestCollection from '../components/LatestCollection'
 import BestSeller from '../components/BestSeller'
 import OurPolicy from '../components/OurPolicy'
 import NewsletterBox from '../components/NewsletterBox'
+import CategoryGrid from '../components/CategoryGrid'
 
 const Home = () => {
   return (
-    <div >
+    <div>
       <Hero />
-      <LatestCollection/>
+      <CategoryGrid />
+      <LatestCollection />
       <BestSeller />
       <OurPolicy />
       <NewsletterBox />
@@ -18,5 +20,3 @@ const Home = () => {
 }
 
 export default Home
-
-   
